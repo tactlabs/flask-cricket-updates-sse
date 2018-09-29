@@ -16,7 +16,7 @@ def get_random_int(start, end):
 
 app = Flask(__name__)
 
-def call_publish_api(msg):
+def call_publisher_api(msg):
     url = 'http://localhost:5000/publish?message='+msg    
     response = requests.get(url)
 
@@ -24,32 +24,44 @@ def call_publish_api(msg):
 def update_events():
     
     overs_max = 2  
+    ball_max_per_over = 3
     teams = ["India", "England"]
-    current_player = "Sachin" 
-    team_1_score = 0
-    team_2_score = 0
+    teams_score = [0, 0]
+    team_1_player = "Sachin"
+    team_1_player = "Paul" 
+    current_player = ""
+    
     
     for innings in range(2):
         
-        call_publish_api(teams[innings]+" batting :")
+        call_publisher_api(teams[innings]+" batting :")
     
         for over in range(overs_max):
             
-            call_publish_api("Over "+str(over+1)+":")
+            call_publisher_api("Over "+str(over+1)+":")
             
             time.sleep(1)
             
-            for x in range(6):
+            for x in range(ball_max_per_over):
                 
                 runs = get_random_int(0, 6)
                 
-                team_1_score = team_1_score + runs
+                teams_score[innings] = teams_score[innings]+runs 
                 
-                call_publish_api("Ball "+str(x+1)+": "+current_player+" scored "+str(runs)+" runs")    
+                call_publisher_api("Ball "+str(x+1)+": "+current_player+" scored "+str(runs)+" runs")    
                 
                 time.sleep(2)
             
-        call_publish_api("Final Score :  "+str(team_1_score))        
+        call_publisher_api(teams[innings]+" Final Score :  "+str(teams_score[innings]))
+        
+    time.sleep(1)            
+    
+    if(teams_score[0] > teams_score[1]):
+        call_publisher_api("<br>"+teams[0]+" wins by "+str((teams_score[0] - teams_score[1]))+ " runs")
+    elif(teams_score[0] < teams_score[1]):    
+        call_publisher_api("<br>"+teams[1]+" wins by 10 wickets")
+    else:
+        call_publisher_api("<br> Match Draw")
     
     return "OK"
 
