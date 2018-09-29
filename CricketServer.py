@@ -28,10 +28,11 @@ def call_publisher_api(msg):
 @app.route("/update")
 def update_events():
     
-    overs_max = 2  
+    overs_max = 3
     ball_max_per_over = 3
     teams = ["India", "England"]
     teams_score = [0, 0]
+    teams_wicket_down = [0, 0]
     team_1_player = "Sachin"
     team_1_player = "Paul" 
     current_player = ""
@@ -49,15 +50,19 @@ def update_events():
             
             for x in range(ball_max_per_over):
                 
-                runs = get_random_int(0, 6)
+                runs = get_random_int(0, 7)
                 
-                teams_score[innings] = teams_score[innings]+runs 
+                if(runs == 7):
+                    teams_wicket_down[innings] = teams_wicket_down[innings] + 1
+                    runs = 0
+                    call_publisher_api("Ball "+str(x+1)+": It's a wicket")
+                else:                
+                    teams_score[innings] = teams_score[innings]+runs                
+                    call_publisher_api("Ball "+str(x+1)+": "+current_player+" scored "+str(runs)+" runs")    
                 
-                call_publisher_api("Ball "+str(x+1)+": "+current_player+" scored "+str(runs)+" runs")    
-                
-                time.sleep(get_random_int(1, 4))
+                time.sleep(1)
             
-        call_publisher_api(teams[innings]+" Final Score :  "+str(teams_score[innings]))
+        call_publisher_api(teams[innings]+" Final Score :  "+str(teams_score[innings]) + " for "+str(teams_wicket_down[innings])+" wickets")
         
     time.sleep(1)            
     

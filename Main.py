@@ -5,6 +5,9 @@
     
     http://flask.pocoo.org/snippets/116/
     https://www.w3schools.com/html/html5_serversentevents.asp
+    
+    SSE Protocol:
+        http://mzl.la/UPFyxY
 
 '''
 # 
