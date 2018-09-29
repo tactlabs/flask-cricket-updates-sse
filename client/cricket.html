@@ -1,0 +1,22 @@
+<!DOCTYPE HTML>
+
+<html>
+   <head>
+      
+      
+		
+   </head>
+   
+   <body>
+      <div id = "result">
+         
+      </div>
+      
+      <script type = "text/javascript">            
+       	 var source = new EventSource("http://localhost:5000/subscribe");
+       	 source.onmessage = function(event) {
+       	     document.getElementById("result").innerHTML += event.data + "<br>";
+       	 };         
+      </script>
+   </body>
+</html>

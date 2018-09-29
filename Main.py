@@ -15,7 +15,7 @@ from gevent.pywsgi import WSGIServer
 from gevent.queue import Queue
 import random
 from flask import request
-
+from flask_cors import CORS
 from flask import Flask, Response
 import requests
 import os
@@ -48,6 +48,7 @@ class ServerSentEvent(object):
         return "%s\n\n" % "\n".join(lines)
 
 app = Flask(__name__)
+CORS(app) #this will enable all (free - world)
 subscriptions = []
 
 # Client code consumes like this.

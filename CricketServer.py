@@ -1,3 +1,8 @@
+'''
+
+    CORS
+    https://flask-cors.readthedocs.io/en/latest/
+'''
 # author: oskar.blom@gmail.com
 # http://flask.pocoo.org/snippets/116/
 # Make sure your gevent version is >= 1.0
@@ -50,7 +55,7 @@ def update_events():
                 
                 call_publisher_api("Ball "+str(x+1)+": "+current_player+" scored "+str(runs)+" runs")    
                 
-                time.sleep(2)
+                time.sleep(get_random_int(1, 4))
             
         call_publisher_api(teams[innings]+" Final Score :  "+str(teams_score[innings]))
         
